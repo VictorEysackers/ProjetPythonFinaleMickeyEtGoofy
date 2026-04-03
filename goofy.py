@@ -9,6 +9,7 @@ class Goofy:
         self.action = Constantes.HAUT
     
     def actualiser(self, mickey):
+        changement = False
         if mickey.ligne == 1:
             self.action = mickey.action
         else:
@@ -17,5 +18,8 @@ class Goofy:
                 self.delai = 4
                 if self.action == Constantes.HAUT:
                     self.action = Constantes.BAS
+                    changement = True
                 else:
                     self.action = Constantes.HAUT
+        
+        return changement

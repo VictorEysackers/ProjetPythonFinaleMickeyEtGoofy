@@ -9,11 +9,13 @@ class Mickey:
 
     def actualiser(self, evenement):
         self.delai -= 1
+        changement = False
 
         if self.delai == 0:
             self.delai = 2
             if self.action == Constantes.HAUT:
                 self. action = Constantes.BAS
+                changement = True
             else:
                 self.action = Constantes.HAUT
 
@@ -27,3 +29,5 @@ class Mickey:
             elif self.ligne == 2:
                 self.ligne = 1
                 self.delay = 0
+
+        return changement
