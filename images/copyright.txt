@@ -1,0 +1,22 @@
+Images du jeu Game & Watch : Mickey & Donald (© Nintendo, 1982)
+
+Les images utilisées dans cette archive reproduisent fidèlement les personnages et décors du jeu original Game & Watch : Mickey & Donald, et proviennent des deux archives suivantes :
+
+- Personnages : archive MAME (https://ia800503.us.archive.org/view_archive.php?archive=/25/items/MAME212RomsOnlyMerged/gnw_mickdon.zip)
+
+- Décors : collection d’artworks MAME réalisée par Mr Do et d’autres contributeurs (https://www.emu-france.com/wp-content/uploads/filebase/utilitaires/MAME%20Support%20Files/Artwork-Mr-Do/gnw_mickdon.zip)
+
+Selon les archives, il s’agirait de scans et reconstructions graphiques réalisés à partir d’un appareil Game & Watch authentique, dans un objectif de préservation et de documentation du patrimoine vidéoludique.
+
+Ces images sont pleinement protégées par le droit d’auteur, et leurs droits appartiennent à Nintendo (© Nintendo, 1982).
+
+Usage autorisé : ces images sont strictement réservées au cours de Python, dans l’Environnement École Virtuelle, accessible uniquement aux étudiants inscrits, conformément à l’exception pédagogique belge.
+
+Restrictions : 
+
+    • Toute reproduction, diffusion ou réutilisation en dehors de l’École Virtuelle HEPL est interdite. Les étudiants qui le font sont pleinement responsables des conséquences.
+
+    • Les images ne peuvent pas être utilisées dans des projets publics ou commerciaux.
+
+Ces images appartiennent à Nintendo et sont utilisées uniquement dans un cadre pédagogique, avec transparence et respect des droits d’auteur.
+ 
