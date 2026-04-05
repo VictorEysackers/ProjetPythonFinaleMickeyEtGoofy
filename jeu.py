@@ -2,12 +2,14 @@ from presentation import *
 from mickey import *
 from goofy import *
 from goutte import *
+from donald import *
 
 class Jeu:
     def __init__(self):
         self.presentation = Presentation()
         self.mickey = Mickey()
         self.goofy = Goofy()
+        self.donald = Donald()
         self.goutte = Goutte()
         self.lGoutte = []
         
@@ -18,6 +20,7 @@ class Jeu:
         i = 0
         while True:
             evenement = self.presentation.lireEvenement()
+            self.donald.actualiser(evenement)
             changementM = self.mickey.actualiser(evenement)
             changementG = self.goofy.actualiser(self.mickey)
 
@@ -48,6 +51,7 @@ class Jeu:
 
         self.presentation.afficherMickey(self.mickey.ligne, self.mickey.action)
         self.presentation.afficherGoofy(self.goofy.action)
+        self.presentation.afficherDonald(self.donald.colonne)
 
         for i in range(len(self.lGoutte)):
             self.presentation.afficherGoutteTuyau(self.lGoutte[i].ligne, self.lGoutte[i].etat)
