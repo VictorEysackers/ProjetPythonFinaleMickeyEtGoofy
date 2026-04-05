@@ -10,8 +10,9 @@ class Jeu:
         self.mickey = Mickey()
         self.goofy = Goofy()
         self.donald = Donald()
-        self.goutte = Goutte()
+        self.goutte = Goutte(any, any)
         self.lGoutte = []
+        self.lGoutteTomb = []
         
 
     # ----------------------------------------------------------------------------
@@ -19,26 +20,32 @@ class Jeu:
     def demarrer(self):
         i = 0
         while True:
+            finTuyau = False   
+
             evenement = self.presentation.lireEvenement()
             self.donald.actualiser(evenement)
             changementM = self.mickey.actualiser(evenement)
             changementG = self.goofy.actualiser(self.mickey)
 
             if self.mickey.ligne == 1 and changementM == True:
-                self.goutte.actualiser(self.lGoutte)
+                finTuyau = self.goutte.actualiser(self.lGoutte)
                 i += 1
                 if i == 2:
                     i = 0
-                    self.lGoutte.append(Goutte())
+                    self.lGoutte.append(Goutte(1, 0))
             elif changementG == True:
-                self.goutte.actualiser(self.lGoutte)
+                finTuyau = self.goutte.actualiser(self.lGoutte)
                 i += 1
                 if i == 2:
                     i = 0
-                    self.lGoutte.append(Goutte())
+                    self.lGoutte.append(Goutte(1, 0))
 
-            #if self.lGoutte:
-            #    self.goutte.actualiser(self.lGoutte)
+            if finTuyau == True:
+                self.lGoutteTomb.append(Goutte(8, self.donald.colonne))
+            
+            if self.lGoutteTomb:
+                self.goutte.actualiserGoutteTomb(self.lGoutteTomb)
+            
 
             self.actualiserEcran()
 
@@ -55,6 +62,10 @@ class Jeu:
 
         for i in range(len(self.lGoutte)):
             self.presentation.afficherGoutteTuyau(self.lGoutte[i].ligne, self.lGoutte[i].etat)
+
+        for i in range(len(self.lGoutteTomb)):
+            self.presentation.afficherGoutteVersFlammes(self.lGoutteTomb[i].ligne, self.lGoutteTomb[i].colonne,\
+                                                         self.lGoutteTomb[i].etat)
 
         self.presentation.afficherCrochet()
 
