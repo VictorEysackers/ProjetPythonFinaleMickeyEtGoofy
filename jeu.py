@@ -3,6 +3,7 @@ from mickey import *
 from goofy import *
 from goutte import *
 from donald import *
+from flamme import *
 
 class Jeu:
     def __init__(self):
@@ -13,6 +14,14 @@ class Jeu:
         self.goutte = Goutte(any, any)
         self.lGoutte = []
         self.lGoutteTomb = []
+        self.TimerFlammes = TimerFlammes()
+        self.flammes = [[Flamme(), Flamme(), Flamme()],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None]]
         
 
     # ----------------------------------------------------------------------------
@@ -41,11 +50,14 @@ class Jeu:
                     self.lGoutte.append(Goutte(1, 0))
 
             if finTuyau == True:
-                self.lGoutteTomb.append(Goutte(8, self.donald.colonne))
+                self.lGoutteTomb.append(Goutte(7, self.donald.colonne))
             
             if self.lGoutteTomb:
                 self.goutte.actualiserGoutteTomb(self.lGoutteTomb)
-            
+
+            nouvelleFlamme = self.TimerFlammes.actualiser()
+            if nouvelleFlamme != Constantes.AUCUN:
+                self.TimerFlammes.ajouterFlamme(self.flammes, nouvelleFlamme)
 
             self.actualiserEcran()
 
@@ -66,6 +78,11 @@ class Jeu:
         for i in range(len(self.lGoutteTomb)):
             self.presentation.afficherGoutteVersFlammes(self.lGoutteTomb[i].ligne, self.lGoutteTomb[i].colonne,\
                                                          self.lGoutteTomb[i].etat)
+
+        for i in range(7):
+            for j in range(3):
+                if self.flammes[i][j] != None:
+                    self.presentation.afficherFlamme(i + 1, j + 1)
 
         self.presentation.afficherCrochet()
 
