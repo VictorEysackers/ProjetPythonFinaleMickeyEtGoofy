@@ -11,7 +11,7 @@ class Jeu:
         self.mickey = Mickey()
         self.goofy = Goofy()
         self.donald = Donald()
-        self.goutte = Goutte(any, any)
+        self.goutte = Goutte(0, 0)
         self.lGoutte = []
         self.lGoutteTomb = []
         self.TimerFlammes = TimerFlammes()
@@ -49,15 +49,17 @@ class Jeu:
                     i = 0
                     self.lGoutte.append(Goutte(1, 0))
 
+            nouvelleFlamme = self.TimerFlammes.actualiser()
+            if nouvelleFlamme != Constantes.AUCUN:
+                self.TimerFlammes.ajouterFlamme(self.flammes, nouvelleFlamme)
+
             if finTuyau == True:
                 self.lGoutteTomb.append(Goutte(7, self.donald.colonne))
             
             if self.lGoutteTomb:
-                self.goutte.actualiserGoutteTomb(self.lGoutteTomb)
+                self.goutte.actualiserGoutteTomb(self.lGoutteTomb, self.flammes)
 
-            nouvelleFlamme = self.TimerFlammes.actualiser()
-            if nouvelleFlamme != Constantes.AUCUN:
-                self.TimerFlammes.ajouterFlamme(self.flammes, nouvelleFlamme)
+            
 
             self.actualiserEcran()
 

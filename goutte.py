@@ -1,4 +1,5 @@
 from goofy import*
+from flamme import *
 
 class Goutte:
     def __init__ (self, ligne, colonne):
@@ -18,12 +19,22 @@ class Goutte:
         
         return finTuyau
     
-    def actualiserGoutteTomb(self, lGoutteTomb):
+    def actualiserGoutteTomb(self, lGoutteTomb, tabFlammes):
         self.delaiTomb -= 1
         if self.delaiTomb == 0:
             self.delaiTomb = 2
             for i in range(len(lGoutteTomb) -1, -1, -1):
-                lGoutteTomb[i].ligne -= 1
 
                 if lGoutteTomb[i].ligne < 1:
                     lGoutteTomb.pop(i)
+                    continue
+
+                if tabFlammes[lGoutteTomb[i].ligne - 1][lGoutteTomb[i].colonne - 1] != None:
+                    tabFlammes[lGoutteTomb[i].ligne -1][lGoutteTomb[i].colonne -1] = None 
+                    lGoutteTomb.pop(i)
+                    continue
+                
+                lGoutteTomb[i].ligne -= 1
+
+
+                
