@@ -24,4 +24,8 @@ class TimerFlammes:
         i = 0
         while i < 7 and tabFlammes[i][colonne] != None:
             i += 1
-        tabFlammes[i][colonne] = Flamme()
+
+        if i < 7:
+            tabFlammes[i][colonne] = Flamme()
+        else:
+            return True

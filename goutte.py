@@ -20,6 +20,7 @@ class Goutte:
         return finTuyau
     
     def actualiserGoutteTomb(self, lGoutteTomb, tabFlammes):
+        addScore = 0
         self.delaiTomb -= 1
         if self.delaiTomb == 0:
             self.delaiTomb = 2
@@ -32,9 +33,12 @@ class Goutte:
                 if tabFlammes[lGoutteTomb[i].ligne - 1][lGoutteTomb[i].colonne - 1] != None:
                     tabFlammes[lGoutteTomb[i].ligne -1][lGoutteTomb[i].colonne -1] = None 
                     lGoutteTomb.pop(i)
+                    addScore += 1
                     continue
                 
                 lGoutteTomb[i].ligne -= 1
+
+        return addScore
 
 
                 

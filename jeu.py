@@ -16,12 +16,14 @@ class Jeu:
         self.lGoutteTomb = []
         self.TimerFlammes = TimerFlammes()
         self.flammes = [[Flamme(), Flamme(), Flamme()],
-                        [None, None, None],
-                        [None, None, None],
-                        [None, None, None],
-                        [None, None, None],
-                        [None, None, None],
-                        [None, None, None]]
+                        [Flamme(), None, None],
+                        [Flamme(), None, None],
+                        [Flamme(), None, None],
+                        [Flamme(), None, None],
+                        [Flamme(), None, None],
+                        [Flamme(), None, None]]
+        self.score = 0
+        self.nbrEchecs = 0
         
 
     # ----------------------------------------------------------------------------
@@ -51,19 +53,47 @@ class Jeu:
 
             nouvelleFlamme = self.TimerFlammes.actualiser()
             if nouvelleFlamme != Constantes.AUCUN:
-                self.TimerFlammes.ajouterFlamme(self.flammes, nouvelleFlamme)
+                defaite = self.TimerFlammes.ajouterFlamme(self.flammes, nouvelleFlamme)
+
+                if defaite == True:
+                    self.nbrEchecs += 1
+
+                    if self.nbrEchecs < 3:
+                        self.presentation.afficherDonald(0)
+                        self.presentation.afficherDonaldEchec(1)
+                        self.presentation.actualiserFenetreGraphique()
+                        time.sleep(1)
+        
+                        self.presentation.afficherDonaldEchec(2)
+                        self.presentation.actualiserFenetreGraphique()
+                        time.sleep(2)
+
+                        for i in range(7):
+                            for j in range(3):
+                                self.flammes[i][j] = None
+                    else:
+                        break
+
+
 
             if finTuyau == True:
                 self.lGoutteTomb.append(Goutte(7, self.donald.colonne))
             
             if self.lGoutteTomb:
-                self.goutte.actualiserGoutteTomb(self.lGoutteTomb, self.flammes)
+                self.score += self.goutte.actualiserGoutteTomb(self.lGoutteTomb, self.flammes)
 
-            
 
             self.actualiserEcran()
 
             time.sleep(0.1)
+
+        #fin du jeu freeze --------------------------------------
+        evenement = self.presentation.lireEvenement()
+        while  evenement != pygame.QUIT:
+            evenement = self.presentation.lireEvenement()
+        
+        pygame.exit()
+        exit()
 
     # ----------------------------------------------------------------------------
 
@@ -87,6 +117,8 @@ class Jeu:
                     self.presentation.afficherFlamme(i + 1, j + 1)
 
         self.presentation.afficherCrochet()
+        self.presentation.afficherScore(self.score)
+        self.presentation.afficherEchecs(self.nbrEchecs)
 
         self.presentation.actualiserFenetreGraphique()
 
