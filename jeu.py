@@ -16,12 +16,12 @@ class Jeu:
         self.lGoutteTomb = []
         self.TimerFlammes = TimerFlammes()
         self.flammes = [[Flamme(), Flamme(), Flamme()],
-                        [Flamme(), None, None],
-                        [Flamme(), None, None],
-                        [Flamme(), None, None],
-                        [Flamme(), None, None],
-                        [Flamme(), None, None],
-                        [Flamme(), None, None]]
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None]]
         self.score = 0
         self.nbrEchecs = 0
 
@@ -40,6 +40,8 @@ class Jeu:
     def resetApresEchec(self):
         self.resetFlammes()
         self.resetGouttes()
+        self.mickey.ligne = 1
+        self.donald.colonne = 2
         
 
     # ----------------------------------------------------------------------------
@@ -77,7 +79,7 @@ class Jeu:
                     if self.nbrEchecs < 3:
                         self.donald.etat = "echec1"
                         self.actualiserEcran()
-                        time.sleep(2)
+                        time.sleep(1)
 
                         self.donald.etat = "echec2"
                         self.actualiserEcran()
@@ -89,7 +91,7 @@ class Jeu:
                     else:
                         self.donald.etat = "echec1"
                         self.actualiserEcran()
-                        time.sleep(2)
+                        time.sleep(1)
 
                         self.donald.etat = "echec2"
                         self.actualiserEcran()
@@ -102,7 +104,32 @@ class Jeu:
                 self.lGoutteTomb.append(Goutte(7, self.donald.colonne))
             
             if self.lGoutteTomb:
-                self.score += self.goutte.actualiserGoutteTomb(self.lGoutteTomb, self.flammes)
+                addScore = self.goutte.actualiserGoutteTomb(self.lGoutteTomb, self.flammes)
+                if addScore > 0:
+                    self.score += addScore
+                    present = 0
+                    for l in range(7):
+                        for c in range(3):
+                            if self.flammes[l][c] != None:
+                                present = 1
+
+                    if present == 0:
+                        self.score += 10
+
+                        self.mickey.etat = "m&mi1"
+                        self.actualiserEcran()
+                        time.sleep(1)
+
+                        self.mickey.etat = "m&mi2"
+                        self.actualiserEcran()
+                        time.sleep(1)
+
+                        self.mickey.etat = "m&mi3"
+                        self.actualiserEcran()
+                        time.sleep(1)
+
+                        self.resetApresEchec()
+                        self.mickey.etat = "normal"
 
 
             self.actualiserEcran()
@@ -120,8 +147,18 @@ class Jeu:
     def actualiserEcran(self):
         self.presentation.effacerImageInterne()
 
-        self.presentation.afficherMickey(self.mickey.ligne, self.mickey.action)
+        if self.mickey.etat == "normal":
+            self.presentation.afficherMickey(self.mickey.ligne, self.mickey.action)
+        elif self.mickey.etat == "m&mi1":
+            self.presentation.afficherMickeyMinnie(1)
+        elif self.mickey.etat == "m&mi2":
+            self.presentation.afficherMickeyMinnie(2)
+        else:
+            self.presentation.afficherMickeyMinnie(3)
+            
+
         self.presentation.afficherGoofy(self.goofy.action)
+
 
         if self.donald.etat == "normal":
             self.presentation.afficherDonald(self.donald.colonne)

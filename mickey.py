@@ -6,6 +6,7 @@ class Mickey:
         self.delai = 2
         self.ligne = 1
         self.action = Constantes.HAUT
+        self.etat = "normal"
 
     def actualiser(self, evenement):
         self.delai -= 1
