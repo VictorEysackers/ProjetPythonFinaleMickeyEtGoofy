@@ -3,6 +3,8 @@ import pygame
 class Donald:
     def __init__(self):
         self.colonne = 2
+        self.etat = "normal"
+
 
     def actualiser(self, evenement):
         if evenement == pygame.K_LEFT:

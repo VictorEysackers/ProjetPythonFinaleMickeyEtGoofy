@@ -24,6 +24,22 @@ class Jeu:
                         [Flamme(), None, None]]
         self.score = 0
         self.nbrEchecs = 0
+
+    def resetFlammes(self):
+        self.flammes = [[Flamme(), Flamme(), Flamme()],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None]]
+    def resetGouttes(self):
+        self.lGoutte = []
+        self.lGoutteTomb = []
+
+    def resetApresEchec(self):
+        self.resetFlammes()
+        self.resetGouttes()
         
 
     # ----------------------------------------------------------------------------
@@ -59,19 +75,25 @@ class Jeu:
                     self.nbrEchecs += 1
 
                     if self.nbrEchecs < 3:
-                        self.presentation.afficherDonald(0)
-                        self.presentation.afficherDonaldEchec(1)
-                        self.presentation.actualiserFenetreGraphique()
-                        time.sleep(1)
-        
-                        self.presentation.afficherDonaldEchec(2)
-                        self.presentation.actualiserFenetreGraphique()
+                        self.donald.etat = "echec1"
+                        self.actualiserEcran()
                         time.sleep(2)
 
-                        for i in range(7):
-                            for j in range(3):
-                                self.flammes[i][j] = None
+                        self.donald.etat = "echec2"
+                        self.actualiserEcran()
+                        time.sleep(2)
+
+                        self.resetApresEchec()
+                        self.donald.etat = "normal"
+
                     else:
+                        self.donald.etat = "echec1"
+                        self.actualiserEcran()
+                        time.sleep(2)
+
+                        self.donald.etat = "echec2"
+                        self.actualiserEcran()
+                        time.sleep(2)
                         break
 
 
@@ -88,9 +110,7 @@ class Jeu:
             time.sleep(0.1)
 
         #fin du jeu freeze --------------------------------------
-        evenement = self.presentation.lireEvenement()
-        while  evenement != pygame.QUIT:
-            evenement = self.presentation.lireEvenement()
+        self.presentation.attendreFermetureFenetre()
         
         pygame.exit()
         exit()
@@ -102,7 +122,16 @@ class Jeu:
 
         self.presentation.afficherMickey(self.mickey.ligne, self.mickey.action)
         self.presentation.afficherGoofy(self.goofy.action)
-        self.presentation.afficherDonald(self.donald.colonne)
+
+        if self.donald.etat == "normal":
+            self.presentation.afficherDonald(self.donald.colonne)
+            self.presentation.afficherCrochet()
+        elif self.donald.etat == "echec1":
+            self.presentation.afficherDonaldEchec(1)
+            self.presentation.afficherCrochet()
+        else:
+            self.presentation.afficherDonaldEchec(2)
+
 
         for i in range(len(self.lGoutte)):
             self.presentation.afficherGoutteTuyau(self.lGoutte[i].ligne, self.lGoutte[i].etat)
@@ -116,7 +145,7 @@ class Jeu:
                 if self.flammes[i][j] != None:
                     self.presentation.afficherFlamme(i + 1, j + 1)
 
-        self.presentation.afficherCrochet()
+        
         self.presentation.afficherScore(self.score)
         self.presentation.afficherEchecs(self.nbrEchecs)
 
