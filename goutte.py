@@ -2,10 +2,14 @@ from goofy import*
 from flamme import *
 
 class Goutte:
-    def __init__ (self, ligne, colonne):
+    def __init__ (self, ligne, colonne, random):
         self.ligne = ligne
         self.colonne = colonne
-        self.etat = Constantes.NORMAL
+        self.random = random
+        if self.random < 4:
+            self.etat = Constantes.NORMAL
+        else:
+            self.etat = Constantes.ANORMAL
         self.delaiTomb = 2
     
     def actualiser(self, lGoutte):
@@ -14,8 +18,8 @@ class Goutte:
             lGoutte[i].ligne += 1
 
             if lGoutte[i].ligne > 8:
+                finTuyau = lGoutte[i].random
                 lGoutte.pop(i)
-                finTuyau = True
         
         return finTuyau
     

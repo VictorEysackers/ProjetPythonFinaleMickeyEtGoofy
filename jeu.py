@@ -4,6 +4,7 @@ from goofy import *
 from goutte import *
 from donald import *
 from flamme import *
+import random
 
 class Jeu:
     def __init__(self):
@@ -11,7 +12,7 @@ class Jeu:
         self.mickey = Mickey()
         self.goofy = Goofy()
         self.donald = Donald()
-        self.goutte = Goutte(0, 0)
+        self.goutte = Goutte(0, 0, 0)
         self.lGoutte = []
         self.lGoutteTomb = []
         self.TimerFlammes = TimerFlammes()
@@ -25,23 +26,7 @@ class Jeu:
         self.score = 0
         self.nbrEchecs = 0
 
-    def resetFlammes(self):
-        self.flammes = [[Flamme(), Flamme(), Flamme()],
-                        [None, None, None],
-                        [None, None, None],
-                        [None, None, None],
-                        [None, None, None],
-                        [None, None, None],
-                        [None, None, None]]
-    def resetGouttes(self):
-        self.lGoutte = []
-        self.lGoutteTomb = []
-
-    def resetApresEchec(self):
-        self.resetFlammes()
-        self.resetGouttes()
-        self.mickey.ligne = 1
-        self.donald.colonne = 2
+    
         
 
     # ----------------------------------------------------------------------------
@@ -61,13 +46,13 @@ class Jeu:
                 i += 1
                 if i == 2:
                     i = 0
-                    self.lGoutte.append(Goutte(1, 0))
+                    self.lGoutte.append(Goutte(1, self.donald.colonne, random.randint(1, 4)))
             elif changementG == True:
                 finTuyau = self.goutte.actualiser(self.lGoutte)
                 i += 1
                 if i == 2:
                     i = 0
-                    self.lGoutte.append(Goutte(1, 0))
+                    self.lGoutte.append(Goutte(1, self.donald.colonne, random.randint(1, 4)))
 
             nouvelleFlamme = self.TimerFlammes.actualiser()
             if nouvelleFlamme != Constantes.AUCUN:
@@ -100,8 +85,8 @@ class Jeu:
 
 
 
-            if finTuyau == True:
-                self.lGoutteTomb.append(Goutte(7, self.donald.colonne))
+            if finTuyau != False:
+                self.lGoutteTomb.append(Goutte(7, self.donald.colonne, finTuyau))
             
             if self.lGoutteTomb:
                 addScore = self.goutte.actualiserGoutteTomb(self.lGoutteTomb, self.flammes)
@@ -188,3 +173,22 @@ class Jeu:
 
         self.presentation.actualiserFenetreGraphique()
 
+
+    def resetFlammes(self):
+        self.flammes = [[Flamme(), Flamme(), Flamme()],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None],
+                        [None, None, None]]
+        
+    def resetGouttes(self):
+        self.lGoutte = []
+        self.lGoutteTomb = []
+
+    def resetApresEchec(self):
+        self.resetFlammes()
+        self.resetGouttes()
+        self.mickey.ligne = 1
+        self.donald.colonne = 2
